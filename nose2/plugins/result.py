@@ -258,6 +258,8 @@ class ResultReporter(events.Plugin):
             return "\n".join(detail)
         except UnicodeDecodeError:
             return "\n".join(util.safe_decode(d) for d in detail)
+        except TypeError:
+            return detail[0]
 
     def _report(self, event, hook, shortLabel, longLabel):
         evt = events.ReportTestEvent(event, self.stream)

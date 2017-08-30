@@ -270,8 +270,13 @@ def exc_info_to_string(err, test):
     formatTraceback = getattr(test, 'formatTraceback', None)
     if formatTraceback is not None:
         return test.formatTraceback(err)
-    else:
+    elif err[2] is not None:
         return format_traceback(test, err)
+    else:
+        # testtools return the traceback already formatted
+        # in the second element of the tupple so there no need
+        # to format
+        return err[1]
 
 
 def format_traceback(test, err):
