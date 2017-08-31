@@ -290,11 +290,14 @@ _RESTRICTED_REGEX = re.compile(RESTRICTED_REGEX_STR, re.U)
 
 
 def string_cleanup(string, keep_restricted=False):
-    if not issubclass(type(string), six.text_type):
-        string = six.text_type(string, encoding='utf-8', errors='replace')
+    try:
+        if not issubclass(type(string), six.text_type):
+            string = six.text_type(string, encoding='utf-8', errors='replace')
 
-    string = _ILLEGAL_REGEX.sub(six.u('\uFFFD'), string)
-    if not keep_restricted:
-        string = _RESTRICTED_REGEX.sub(six.u('\uFFFD'), string)
+        string = _ILLEGAL_REGEX.sub(six.u('\uFFFD'), string)
+        if not keep_restricted:
+            string = _RESTRICTED_REGEX.sub(six.u('\uFFFD'), string)
 
-    return string
+        return string
+    except TypeError:
+        return str(string)
