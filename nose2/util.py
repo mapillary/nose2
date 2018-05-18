@@ -296,7 +296,7 @@ def format_traceback(test, err):
         else:
             msgLines = traceback.format_exception(exctype, value, tb)
 
-    return ''.join(msgLines)
+    return msgLines
 
 
 def transplant_class(cls, module):
